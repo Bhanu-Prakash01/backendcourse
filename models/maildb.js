@@ -1,20 +1,29 @@
 const mongoose=require('mongoose');
 
-const MailSchema=mongoose.Schema({
+const MailSchema=new mongoose.Schema({
     msg:{
         type:String,
+        required:true
     },
     phonenumber:{
-        type:Number
+        type:Number,
+        required:true
     },
     email:{
-        type:String
+        type:String,
+        required:true
     },
     username:{
-        type:String
+        type:String,
+        required:true
+    },
+    date:{
+        type:Date,
+        default:Date.now()
     }
 })
 
-// const Mail=mongoose.model("User",MailSchema)
+module.exports =mongoose.model("Mails",MailSchema)
+
 
 // exports.Mail=Maildb
