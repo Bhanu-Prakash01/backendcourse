@@ -66,7 +66,7 @@ router.post('/post',async(req,res)=>{
             })
             const saveduserdata= await data.save();
             res.status(201).send(saveduserdata)
-            const token=await jwt.sign({_id:saveduserdata._id},'sec')
+            const token=await jwt.sign({_id:saveduserdata._id},process.env.JWTSECRET)
             await res.header('auth-token',token).send('token has been given')
         }
     }catch(err){

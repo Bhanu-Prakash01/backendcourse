@@ -2,7 +2,7 @@ const mongoose=require('mongoose')
 const express=require('express');
 const helmet = require('helmet');
 const app=express();
-const bcrypt=require('bcrypt')
+
 
 //exporting routes
 const mailroute=require('./routes/mail')
