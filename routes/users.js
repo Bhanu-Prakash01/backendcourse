@@ -4,6 +4,7 @@ const router=express.Router();
 const jwt=require('jsonwebtoken')
 const bcrypt=require('bcrypt')
 const verify =require('./verfiytoken');
+require('dotenv').config()
 // const { route } = require('./razorpay');
 
 //getting data from all the users
@@ -14,9 +15,14 @@ router.get('/get',verify,async (req,res)=>{
 
 //getting data from unique user
 router.get('/get/:id',verify,async(req,res)=>{
-
-    const saveduser= await User.find({_id:req.params.id})
-    res.send(saveduser)
+    try{
+        const saveduser= await User.find({_id:req.params.id})
+        res.send(saveduser)
+    }
+    catch{
+        res.status(400).json('no user found related to this  id')
+    }
+    
 })
 
 //deleting the all users
@@ -27,8 +33,14 @@ router.delete('/delete',verify,async (req,res)=>{
 
 //delete the one user
 router.delete('/delete/:id',verify,async (req,res)=>{
-    const userdeletedetial=await User.deleteOne({_id:req.body.id})
-    res.send(userdeletedetial)
+    try{
+        const userdeletedetial=await User.deleteOne({_id:req.body.id})
+        res.send(userdeletedetial)
+    }
+    catch{
+        res.status(400).json('no user found related to this  id')
+    }
+    
 })
 
 
@@ -74,16 +86,16 @@ router.post('/login', async (req,res)=>{
     try{
         const logincheck= await User.findOne({email:email})
         if(logincheck){
-        // const passwrdcheck= await bcrypt.compare(password,logincheck.password)
-        // if(passwrdcheck){
-        //     //creating the jwt token
-            res.json(logincheck)
-        //     const token=jwt.sign({_id:passwrdcheck._id},'sec')
-        //     return res.header('auth-token',token).send(token)
-        //     // res.) 
-        // }else{
-        //     res.status(401).send('please try again')
-        // }
+            const passwrdcheck= await bcrypt.compare(password,logincheck.password)
+            if(passwrdcheck){
+                //creating the jwt token
+                res.json(logincheck)
+                const token=jwt.sign({_id:passwrdcheck._id},process.env.JWTSECRET)
+                return res.header('auth-token',token).send(token)
+                // res.) 
+            }else{
+                res.status(401).send('please try again')
+            }
         }
         else{
             res.send(404).json('user does not exist')

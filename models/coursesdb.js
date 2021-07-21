@@ -5,7 +5,7 @@ const Courses =new mongoose.Schema({
         type:String,
         required:true
     },
-    sectittls:{
+    sectittle:{
         type:String,
         required:true
     },
@@ -28,6 +28,10 @@ const Courses =new mongoose.Schema({
     price:{
         type:Number,
         required: true
+    },
+    types:{
+        type:Number,
+        required:true
     }
 })
 
