@@ -5,19 +5,19 @@ const verify =require('./verfiytoken');
 
 
 //get all mails
-router.get('/get',verify,async (req,res)=>{
+router.get('/get',async (req,res)=>{
     const savedmails=await Mail.find()
     res.json(savedmails)
-})
+}) 
 
 //delete the mails
-router.delete('/delete',verify,async (req,res)=>{
+router.delete('/delete',async (req,res)=>{
     const deletemails=await Mail.deleteMany()
     res.json(deletemails)
 })
 
 //delete the one mail
-router.delete('/delete/:id',verify,async (req,res)=>{
+router.delete('/delete/:id',async (req,res)=>{
     const maildeletedetial=await Mail.deleteOne({_id:req.body.id})
     res.send(maildeletedetial)
 })
@@ -26,15 +26,16 @@ router.delete('/delete/:id',verify,async (req,res)=>{
 //posting the mails
 router.post('/post',async(req,res)=>{
     if(!(req.body.msg && req.body.phonenumber && req.body.username && req.body.email)){
-        res.send('please all inputs')
+        res.status(400).json('please all inputs')
     }
     const data=new Mail({
         msg:req.body.msg,
         phonenumber:req.body.phonenumber,
         username:req.body.username,
-        email:req.body.email
+        email:req.body.email,
+        copy:req.body.copy
     })
-    const savedmail= await data;
+    const savedmail= await data.save();
     res.send(savedmail)
 })
 

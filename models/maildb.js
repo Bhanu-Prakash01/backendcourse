@@ -17,6 +17,11 @@ const MailSchema=new mongoose.Schema({
         type:String,
         required:true
     },
+    copy:{
+        type:Boolean,
+        required: true,
+        default:false
+    },
     date:{
         type:Date,
         default:Date.now()
