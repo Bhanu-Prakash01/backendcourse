@@ -110,7 +110,7 @@ router.post('/login', async (req,res)=>{
     }catch{
         res.status(404).json('user does not exist')
     }
-    
+     
 })
 
 
