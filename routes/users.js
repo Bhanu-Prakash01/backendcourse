@@ -44,6 +44,15 @@ router.delete('/delete/:id',verify,async (req,res)=>{
 })
 
 
+//update user for course\
+// router.post('/update',async (req,res)=>{
+//     const coursesbuy= req.body.coursesby
+//     const userId=req.body.userid
+//     const
+// })
+
+
+
 //register --user 
 router.post('/post',async(req,res)=>{
     if (!(req.body.fname && req.body.lname && req.body.password && req.body.phonenumber && req.body.email)) {
@@ -66,8 +75,8 @@ router.post('/post',async(req,res)=>{
             })
             const saveduserdata= await data.save();
             res.status(201).send(saveduserdata)
-            const token=await jwt.sign({_id:saveduserdata._id},process.env.JWTSECRET)
-            await res.header('auth-token',token).send('token has been given')
+            // const token=jwt.sign({ _id: saveduserdata._id }, process.env.JWTSECRET)
+            // res.header('auth-token', token).send('token has been given')
         }
     }catch(err){
         console.log(err) 
@@ -79,26 +88,24 @@ router.post('/post',async(req,res)=>{
 router.post('/login', async (req,res)=>{
     const email= req.body.email;
     const password= req.body.password;
-    // const {email,password}= await req.body;
-    // if(!(email && password)){
-    //     res.send('please fill all input fields')
-    // }
+    if(!(email && password)){
+        res.status(400).json('please fill all input fields')
+    }
     try{
         const logincheck= await User.findOne({email:email})
         if(logincheck){
             const passwrdcheck= await bcrypt.compare(password,logincheck.password)
             if(passwrdcheck){
                 //creating the jwt token
-                res.json(logincheck)
-                const token=jwt.sign({_id:passwrdcheck._id},process.env.JWTSECRET)
-                return res.header('auth-token',token).send(token)
-                // res.) 
-            }else{
-                res.status(401).send('please try again')
+                const token= jwt.sign({ _id: passwrdcheck._id }, process.env.JWTSECRET,{expiresIn:'1d'})
+                
+                res.json({auth:true,token:token,data:logincheck})
+            }else{ 
+                res.status(401).json('please try again')
             }
         }
         else{
-            res.send(404).json('user does not exist')
+            res.status(404).json('user does not exist')
         }
     }catch{
         res.status(404).json('user does not exist')

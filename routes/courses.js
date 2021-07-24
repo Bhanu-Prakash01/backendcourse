@@ -9,7 +9,7 @@ const verify =require('./verfiytoken');
 //getting data from all the courses
 router.get('/get',async (req,res)=>{
     const savedCourses= await Course.find()
-    res.send(savedCourses)
+    res.status(200).send(savedCourses)
 })
 
 //getting data from unique course
@@ -52,7 +52,14 @@ router.post('/post',verify,async(req,res)=>{
             lectures:lectures,
             typeofcourse:typeofcourse,
             price:price,
-            types:types
+            types:types,
+            faq:
+            [
+                {
+                    q:req.body.q,
+                    ans:req.body.ans
+                }
+            ]
         })
         const savecourse= await course.save()
         res.status(201).send(savecourse)

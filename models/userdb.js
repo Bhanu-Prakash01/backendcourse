@@ -26,6 +26,9 @@ const UserSchema=new mongoose.Schema({
         required: true,
         default:'default'
     },
+    coursesbuy:{
+        type:Array,
+    },
     date:{
         type:Date,
         default:Date.now()

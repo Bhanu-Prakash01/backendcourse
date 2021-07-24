@@ -1,12 +1,12 @@
 const mongoose=require('mongoose');
 
-const MailSchema=new mongoose.Schema({
+const ReviewsSchema=new mongoose.Schema({
     username:{
         type:String,
         required:true
     },
     review:{
-        type:Number,
+        type:String,
         required:true
     },
     date:{
@@ -15,7 +15,4 @@ const MailSchema=new mongoose.Schema({
     }
 })
 
-module.exports =mongoose.model("Mails",MailSchema)
-
-
-// exports.Mail=Maildb
+module.exports =mongoose.model("Reviews",ReviewsSchema)

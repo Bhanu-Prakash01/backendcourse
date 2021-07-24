@@ -3,6 +3,7 @@ const router=express.Router()
 const Razorpay=require('razorpay')
 const request=require('request');
 require('dotenv').config()
+const Promocode=require('../models/promocodedb')
 
 const razorInstance = new Razorpay({
     key_id: process.env.RAZORID,

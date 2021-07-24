@@ -1,5 +1,14 @@
 const mongoose=require('mongoose');
 
+const faqsec=mongoose.Schema({
+    q:{
+        type:String,
+    },
+    ans:{
+        type:[String]
+    }
+})
+
 const Courses =new mongoose.Schema({
     maintittle:{
         type:String,
@@ -29,6 +38,7 @@ const Courses =new mongoose.Schema({
         type:Number,
         required: true
     },
+    faq:[faqsec],
     types:{
         type:Number,
         required:true
