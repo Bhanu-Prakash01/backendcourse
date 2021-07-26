@@ -15,8 +15,8 @@ router.get('/get',async (req,res)=>{
 //getting data from unique course
 router.get('/get/:id',async(req,res)=>{
     try{
-        const savedCourse= await Course.find({_id:req.params.id})
-        res.send(savedCourse)
+        const savedCourse= await Course.findOne({_id:req.params.id})
+        res.status(200).send(savedCourse)
     }
     catch{
         res.status(400).json('no user found related to this  id')

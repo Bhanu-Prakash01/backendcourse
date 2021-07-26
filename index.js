@@ -33,7 +33,7 @@ app.get('/',(req,res)=>{
 
 })
 
-const PORT = process.env.PORT || 8000
+const PORT = process.env.PORT || 8001
 app.listen(PORT,()=>{
     console.log(`server running on port number ${PORT}` )
     console.log(`server running on port number http://localhost:${PORT}` )

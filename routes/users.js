@@ -4,6 +4,7 @@ const router=express.Router();
 const jwt=require('jsonwebtoken')
 const bcrypt=require('bcrypt')
 const verify =require('./verfiytoken');
+const { isValidObjectId } = require('mongoose');
 require('dotenv').config()
 // const { route } = require('./razorpay');
 
@@ -44,12 +45,24 @@ router.delete('/delete/:id',verify,async (req,res)=>{
 })
 
 
-//update user for course\
-// router.post('/update',async (req,res)=>{
-//     const coursesbuy= req.body.coursesby
-//     const userId=req.body.userid
-//     const
-// })
+// update user for course\
+router.post('/update',verify,async (req,res)=>{
+    const coursesbuy= req.body.coursesbuy
+    const email=req.body.email
+    const resultupdate= await User.updateOne({email:email},{
+        $push:{
+            coursesbuy: coursesbuy
+        }
+    }
+    ,
+        {
+            new:true
+        }
+    )
+    console.log(resultupdate)
+    res.send(resultupdate)
+    
+})
 
 
 

@@ -4,7 +4,7 @@ const router=express.Router();
 const Promocode=require('../models/promocodedb')
 
 //adding new promocode 
-router.post('/post',verify ,async (req,res)=>{
+router.post('/post' ,async (req,res)=>{
     const promocode=req.body.promocode;
     const discount=req.body.discount
     const promosearch= await Promocode.findOne({promocode:promocode})
@@ -19,7 +19,7 @@ router.post('/post',verify ,async (req,res)=>{
         
     }
     else{
-        res.status(400).send("promocode is already exist")
+        res.status(400).json("promocode is already exist")
         // res.send(promosearch)
     }
     
