@@ -13,9 +13,9 @@ const razorpayroute=require('./routes/razorpay')
 const reviewroute=require('./routes/reviews')
 const promocoderoute=require('./routes/promocodes')
 
-mongoose.connect(process.env.MONGODBURL,{ useUnifiedTopology: true , useNewUrlParser: true , useFindAndModify:true }).then(()=>console.log('db is connected ')).catch((err)=>console.log(`db is failed ${err}`))
+mongoose.connect('mongodb+srv://course:course@cluster0.tfun9.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',{ useUnifiedTopology: true , useNewUrlParser: true , useFindAndModify:true }).then(()=>console.log('db is connected ')).catch((err)=>console.log(`db is failed ${err}`))
 
-// //middleware
+// //middleware  
 app.use(express.json());
 app.use(helmet());
 const cors = require('cors');
@@ -33,7 +33,7 @@ app.get('/',(req,res)=>{
 
 })
 
-const PORT = process.env.PORT || 8001
+const PORT = process.env.PORT || 8000
 app.listen(PORT,()=>{
     console.log(`server running on port number ${PORT}` )
     console.log(`server running on port number http://localhost:${PORT}` )

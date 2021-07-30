@@ -8,8 +8,14 @@ const verify =require('./verfiytoken');
 
 //getting data from all the courses
 router.get('/get',async (req,res)=>{
-    const savedCourses= await Course.find()
-    res.status(200).send(savedCourses)
+    try{
+        const savedCourses= await Course.find()
+        res.status(200).send(savedCourses)
+    }
+    catch{
+        res.send("no courses are present")
+    }
+    
 })
 
 //getting data from unique course
@@ -39,7 +45,7 @@ router.delete('/delete/:id',verify,async (req,res)=>{
 
 
 //register --new course
-router.post('/post',verify,async(req,res)=>{
+router.post('/post',async(req,res)=>{
     const {maintittle,sectittle,technologies,duration,lectures,typeofcourse,price,types}=req.body
     if(!(maintittle && sectittle && technologies && duration && lectures && typeofcourse && price && types)){
         res.status(400).json('please fill all fields')

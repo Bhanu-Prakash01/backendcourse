@@ -1,6 +1,7 @@
 const express=require('express');
 const User= require('../models/userdb');
 const router=express.Router();
+const Course=require('../models/coursesdb')
 const jwt=require('jsonwebtoken')
 const bcrypt=require('bcrypt')
 const verify =require('./verfiytoken');
@@ -9,7 +10,7 @@ require('dotenv').config()
 // const { route } = require('./razorpay');
 
 //getting data from all the users
-router.get('/get',verify,async (req,res)=>{
+router.get('/get',async (req,res)=>{
     const savedUsers=await User.find()
     res.send(savedUsers)
 })
@@ -46,21 +47,39 @@ router.delete('/delete/:id',verify,async (req,res)=>{
 
 
 // update user for course\
-router.post('/update',verify,async (req,res)=>{
+router.post('/update',async (req,res)=>{
     const coursesbuy= req.body.coursesbuy
     const email=req.body.email
-    const resultupdate= await User.updateOne({email:email},{
-        $push:{
-            coursesbuy: coursesbuy
-        }
+    if(!(email && coursesbuy)){
+        res.send("fill all inputs")
     }
-    ,
-        {
-            new:true
+   
+    try{
+        const z = await Course.findOne({_id:coursesbuy})
+        if(await User.findOne({email:email})){
+            const coursefound=await User.findOne({email:email})
+            // res.send(coursefound)
+            const resultupdate= await User.updateOne({email:email},{
+                $push:{
+                    coursesbuy: `${z.maintittle}  ${z.sectittle}`
+                }
+            }
+            ,
+                {
+                    new:true
+                }
+            )
+            console.log(resultupdate)
+            res.send(resultupdate)
         }
-    )
-    console.log(resultupdate)
-    res.send(resultupdate)
+        else{
+            res.send("user does not exist")
+        }
+        
+    }
+    catch(err){
+        console.log(err)
+    }
     
 })
 
